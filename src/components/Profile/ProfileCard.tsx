@@ -1,7 +1,5 @@
-import * as React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import {
   Avatar,
@@ -15,6 +13,11 @@ import { useNavigate } from "react-router";
 
 const settings = ["Logout"];
 
+/**
+ * A Profile card that displays minimal information about the user with some action buttons
+ * @param {CurrentUserProps} profile - Contains the information about the current user
+ * @returns A profile card
+ */
 const ProfileCard = ({ profile }: { profile: CurrentUserProps }) => {
   const navigate = useNavigate();
 

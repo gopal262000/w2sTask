@@ -13,6 +13,11 @@ interface ProfileProps {
   user: CurrentUserProps;
 }
 
+/**
+ * A ProfileCard with a Profile Icon Button
+ * @param {ProfileProps} user - serves the user data
+ * @returns - A Component shows a Profile Icon and Clicking on that will reveal the Profile Card
+ */
 const Profile: React.FC<ProfileProps> = ({ user }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 

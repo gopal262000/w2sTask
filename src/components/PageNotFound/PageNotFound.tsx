@@ -1,5 +1,9 @@
 import styled from "@emotion/styled";
 
+/**
+ * A Component that shows that there is no page is linked for the given route.
+ * @returns - Component
+ */
 export default function ErrorPage() {
   const StyledNotFound = styled.div`
     display: flex;

@@ -41,6 +41,10 @@ const StyledButton = styled(Button)(({ theme }) => ({
   margin: theme.spacing(3, 0, 2),
 }));
 
+/**
+ * A Basid login form that askes the username and Password for Authentication
+ * @returns Login Form
+ */
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -48,6 +52,7 @@ const Login: React.FC = () => {
   const { snackBar } = useContext(SnackbarContext);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  // Schema to vallidate the username and password
   const LoginFormSchema = Yup.object().shape({
     username: Yup.string().required("Username is required"),
     password: Yup.string().required("Password is required"),
@@ -66,8 +71,8 @@ const Login: React.FC = () => {
 
         if (response.username) {
           setIsLoading(false);
-          dispatch(login(response));
-          snackBar({ message: 'Login Success' });
+          dispatch(login(response)); // dispatch the authenticated login token to save it in the LocalStorage
+          snackBar({ message: 'Login Success' }); // Shows the SnackBar with success message
           navigate("/products");
         }
       } catch (err: any) {
@@ -75,14 +80,11 @@ const Login: React.FC = () => {
         snackBar({ message: err.response.data.message });
         throw err;
       }
-
-      // dispatch(login(values));
     },
   });
 
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline />
       <StyledPaper>
         <StyledAvatar>
           <Lock />

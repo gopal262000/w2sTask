@@ -1,4 +1,95 @@
-# Getting Started with Create React App
+# W2S Task
+
+## Overview
+It is simple application with the basic features like login, logout and listing product details
+
+## Getting Started
+
+### Prerequisites
+- **Node.js:** Version 14 or higher
+- **npm:** Version 6 or higher
+
+### Installation
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/gopal262000/w2sTask
+   ```
+2. **Navigate to the Project Directory:**
+   ```bash
+   cd w2sTask
+   ```
+3. **Install Dependencies:**
+   ```bash
+   npm install or yarn intall
+   ```
+
+## Usage
+
+### Running the Project
+Start the development server by running:
+```bash
+npm start
+```
+Open `http://localhost:3000` in your browser to view the application.
+
+### Usage Examples
+- **Login**
+  username: **emilys**
+  password: **emilyspass**
+
+  use the above details as the login credentials
+- **Products Page**
+  You can find the list of products.
+  Basic functionality like pagination has been implemented.
+  You can view the products review at the end of the each product row.
+  By Clicking on the View Reviews button you can see the reviews opened in the Modal.
+- **App Bar**
+  You can toggle the sidebar by clicking on the menu button in the app bar.
+  At the right side of the App Bar, you can view the logged in user profile image.
+  By clicking on the Profile Image you can find the minimal profile details and Logout option.
+
+
+## Project Structure
+- **`src/`** - Contains source code for the application.
+  - **`components/`** - React components.
+  - **`features/`** - Redux global states.
+  - **`layouts/`** - Page Layout components.
+  - **`pages/`** - Page components.
+  - **`providers/`** - Context provider components.
+- **`public/`** - Static assets like `index.html` and images.
+- **`package.json`** - Project metadata and dependencies.
+
+
+## Testing
+Run tests using:
+```bash
+npm test
+```
+To add new tests, follow the existing test structure in the `src/tests/` directory.
+
+## Deployment
+1. **Build the Project:**
+   ```bash
+   npm run build
+   ```
+2. **Deploy the `build/` Directory to Your Hosting Service**
+
+## Troubleshooting
+- **Issue:** `npm start` fails with an error.
+  - **Solution:** Ensure all dependencies are installed and environment variables are correctly set.
+
+## Acknowledgements
+- **React:** For the core library.
+- **Redux:** For state management.
+- **Typescript:** For Data Type validation.
+- **Mui:** For React component library.
+- **FormIk and Yup:** For Form building and validation.
+- **Axios** For Api handling.
+- **Create React App:** For the initial project setup.
+
+---
+
+<!-- # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -43,4 +134,4 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+To learn React, check out the [React documentation](https://reactjs.org/). -->

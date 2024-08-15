@@ -48,6 +48,11 @@ const NavList = styled.ol`
   padding: 0;
 `;
 
+/**
+ * 
+ * @param {boolean} isVisible - Whether the Sidebar is visible or not
+ * @returns - Sidebar Component
+ */
 
 const Sidebar = ({ isVisible }: { isVisible: boolean }) => {
   return (

@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 // import { productsService } from "./service";
 import { ProductProps, ProductsProps } from "./types";
 import {
-  Box,
-  Button,
   CircularProgress,
   Paper,
   Rating,
@@ -18,6 +16,10 @@ import {
 import ProductReviews from "./ProductReviews";
 import { productsService } from "./service";
 
+/**
+ * A Products table that shows the products details and an action to view the reviews
+ * @returns {Component} - A Table contains the information about the products
+ */
 const Products = () => {
   const [productsData, setProducts] = useState<ProductsProps>({
     products: [],

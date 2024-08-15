@@ -23,6 +23,12 @@ const StyledLink = styled(Link)(({ theme }) => ({
   textDecoration: "none",
 }));
 
+/**
+ * An App bar with menu options, Logo and Profile options
+ * @param {Function} onSideMenuClicked - Controls whether to show or hide the side menu
+ * @returns {Component} - App Bar
+ */
+
 export default function CustomAppBar({
   onSideMenuClick,
 }: {
@@ -43,6 +49,7 @@ export default function CustomAppBar({
             aria-label="menu"
             sx={{ mr: 2 }}
             onClick={onSideMenuClick}
+            data-testid='menu-button'
           >
             <MenuIcon />
           </IconButton>

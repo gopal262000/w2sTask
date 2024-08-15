@@ -1,12 +1,10 @@
 import {
-  Avatar,
   Box,
   Button,
   CircularProgress,
   Divider,
   List,
   ListItem,
-  ListItemAvatar,
   ListItemText,
   Modal,
   Rating,
@@ -24,12 +22,16 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: 400,
   bgcolor: "background.paper",
-  //   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
   margin: "10px"
 };
 
+/**
+ * A Review button with a Modal dialog showing the product reviews
+ * @param {string} productId - Id of the product to display the review
+ * @returns - A Modal containing the product reviews
+ */
 const ProductReviews = ({ productId }: { productId: number }) => {
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [product, setProduct] = useState<ProductProps>();
@@ -47,7 +49,7 @@ const ProductReviews = ({ productId }: { productId: number }) => {
     };
 
     if (showReviewModal) fetchProductData();
-  }, [showReviewModal]);
+  }, [productId, showReviewModal]);
 
   return (
     <>
@@ -87,6 +89,11 @@ const ProductReviews = ({ productId }: { productId: number }) => {
   );
 };
 
+/**
+ * A component that displays a list of reviews
+ * @param {Object[]} reviews - list of reviews data
+ * @returns - A list of reviews
+ */
 const ReviewsList = ({ reviews }: { reviews: ProductProps["reviews"] }) => {
   return (
     <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
@@ -100,7 +107,7 @@ const ReviewsList = ({ reviews }: { reviews: ProductProps["reviews"] }) => {
                     <Rating readOnly value={review.rating} />
                     <Typography>{review.comment}</Typography>
                   </>
-                }
+                } // Shows the Rating the Comment
                 secondary={
                   <React.Fragment>
                     <Typography
@@ -114,9 +121,10 @@ const ReviewsList = ({ reviews }: { reviews: ProductProps["reviews"] }) => {
                     {" - "}
                     <DateTime dateTime={review.date}/>
                   </React.Fragment>
-                }
+                }// Shows the Reviewer name and date of review
               />
             </ListItem>
+            {/* Hide the divider at the last Review */}
             {idx < reviews.length - 1 && <Divider component="li" />}
           </>
         );

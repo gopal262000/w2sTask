@@ -5,6 +5,10 @@ import {
 } from "../../providers/SnackbarProvider";
 import { Snackbar } from "@mui/material";
 
+/**
+ * Using the SnackbarProvider and extracting the snackbars shows the snackbar
+ * @returns Returns the list of snackbars
+ */
 function ToastShelf() {
   const { snackBars, handleOnClose } = useContext(SnackbarContext);
 
