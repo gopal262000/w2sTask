@@ -26,7 +26,8 @@ const Products = () => {
   const [filter, setFilter] = useState({ limit: 10, skip: 0, page: 0 });
   const { data: productsData, isLoading } = useSWR(
     filter, // SWR key is just the filter (or null if you prefer)
-    () => productsService({ params: filter }) // Fetcher function returning the promise
+    () => productsService({ params: filter }),
+    { keepPreviousData: true } // Fetcher function returning the promise
   );
 
   const { products, total = 0 } = (productsData || {}) as ProductsProps;

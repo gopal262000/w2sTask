@@ -4,7 +4,6 @@ import { CurrentUserProps } from "../types";
 import currentUserService from "./service";
 import { Outlet, useLocation, useNavigate } from "react-router";
 import { currentUser } from "../features/authSlice";
-import useSWR from "swr";
 
 /**
  * This component is used to authenticate the current user
@@ -16,24 +15,31 @@ import useSWR from "swr";
 const CurrentUserProvider = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
+  const userData = useSelector(
+    (state: { auth: CurrentUserProps }) => state.auth
+  ); // Global Authenticated user data
   const dispatch = useDispatch(); // Global State updater function
 
-  const { data, error } = useSWR({}, currentUserService);
-
   useEffect(() => {
-    if (data && data.username) {
-      dispatch(currentUser(data));
-    }
-    if (error) {
-      if (location.pathname !== "/login") navigate("/login");
-    }
-  }, [data, dispatch, error, location.pathname, navigate]); // whenever the page page changes we are authenticating the user
+    const fetchCurrentUser = async () => {
+      try {
+        // Check and hold the state in global state if the user is authenticated
+        const currentUserData = await currentUserService();
+        if (currentUserData.username) {
+          dispatch(currentUser(currentUserData));
+        }
+      } catch (err) {
+        // Navigate the user back to the login page if the user is not authenticated
+        if (!(userData && userData.username)) {
+          if (location.pathname !== "/login") navigate("/login");
+        }
+      }
+    };
+
+    fetchCurrentUser();
+  }, [dispatch, location.pathname, navigate]); // whenever the page page changes we are authenticating the user
 
   // Navigate the user back to the login page if the user is not authenticated
-  if (!(data && data.username)) {
-    if (location.pathname !== "/login") navigate("/login");
-  }
 
   // If authenticated continue with remaining components
   return <Outlet />;
