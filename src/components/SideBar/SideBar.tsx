@@ -57,7 +57,7 @@ const Sidebar = ({ isVisible }: { isVisible: boolean }) => {
     <SidebarContainer isVisible={isVisible}>
       <NavList>
         <li>
-          <CustomNavLink to="/home/products">Products</CustomNavLink>
+          <CustomNavLink to="/u/products">Products</CustomNavLink>
         </li>
       </NavList>
     </SidebarContainer>
