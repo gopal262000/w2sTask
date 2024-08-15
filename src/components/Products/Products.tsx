@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 // import { productsService } from "./service";
 import { ProductProps, ProductsProps } from "./types";
 import {
+  Backdrop,
   CircularProgress,
   Paper,
   Rating,
@@ -72,43 +73,48 @@ const Products = () => {
           {loading && (
             <TableRow sx={{ height: "79vh" }}>
               <TableCell colSpan={6} align="center">
-                <CircularProgress />
+                <Backdrop
+                  sx={{
+                    color: "#fff",
+                    zIndex: (theme) => theme.zIndex.drawer + 1,
+                  }}
+                  open={loading}
+                >
+                  <CircularProgress color="inherit" />
+                </Backdrop>
               </TableCell>
             </TableRow>
           )}
-          {!loading &&
-            products.map((product: ProductProps) => (
-              <TableRow
-                key={product.id} // Ensure that `product.id` is unique.
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {product.title}
-                </TableCell>
-                <TableCell width={400}>{product.description}</TableCell>
-                <TableCell>{product.category}</TableCell>
-                <TableCell>{product.price}</TableCell>
-                <TableCell>
-                  <Rating name="read-only" value={product.rating} readOnly />
-                </TableCell>
-                <TableCell width={150} align="left">
-                  <ProductReviews productId={product.id} />
-                </TableCell>
-              </TableRow>
-            ))}
+          {products.map((product: ProductProps) => (
+            <TableRow
+              key={product.id} // Ensure that `product.id` is unique.
+              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+            >
+              <TableCell component="th" scope="row">
+                {product.title}
+              </TableCell>
+              <TableCell width={400}>{product.description}</TableCell>
+              <TableCell>{product.category}</TableCell>
+              <TableCell>{product.price}</TableCell>
+              <TableCell>
+                <Rating name="read-only" value={product.rating} readOnly />
+              </TableCell>
+              <TableCell width={150} align="left">
+                <ProductReviews productId={product.id} />
+              </TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
-      {!loading && (
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          page={filter.page}
-          rowsPerPage={filter.limit}
-          count={total}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      )}
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 25]}
+        component="div"
+        page={filter.page}
+        rowsPerPage={filter.limit}
+        count={total}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
     </TableContainer>
   );
 };
