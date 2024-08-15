@@ -14,6 +14,7 @@ import React, { useEffect, useState } from "react";
 import { singleProductService } from "./service";
 import { ProductProps } from "./types";
 import { DateTime } from "../common";
+import useSWR from "swr";
 
 const style = {
   position: "absolute" as "absolute",
@@ -24,7 +25,7 @@ const style = {
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 4,
-  margin: "10px"
+  margin: "10px",
 };
 
 /**
@@ -34,22 +35,11 @@ const style = {
  */
 const ProductReviews = ({ productId }: { productId: number }) => {
   const [showReviewModal, setShowReviewModal] = useState(false);
-  const [product, setProduct] = useState<ProductProps>();
-  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const fetchProductData = async () => {
-      setLoading(true);
-      const productData: ProductProps = await singleProductService({
-        productId,
-      });
-
-      setProduct(productData);
-      setLoading(false);
-    };
-
-    if (showReviewModal) fetchProductData();
-  }, [productId, showReviewModal]);
+  const { data: product, isLoading } = useSWR<ProductProps>(
+    showReviewModal ? { productId } : null, // SWR key or null to skip fetch
+    () => singleProductService({ productId }) // Fetcher function
+  );
 
   return (
     <>
@@ -63,7 +53,7 @@ const ProductReviews = ({ productId }: { productId: number }) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          {loading && (
+          {isLoading && (
             <Box
               sx={{
                 display: "flex",
@@ -75,7 +65,7 @@ const ProductReviews = ({ productId }: { productId: number }) => {
               <CircularProgress />
             </Box>
           )}
-          {!loading && (
+          {!isLoading && (
             <>
               <Typography variant="h6" id="parent-modal-title">
                 {product?.title}
@@ -119,9 +109,9 @@ const ReviewsList = ({ reviews }: { reviews: ProductProps["reviews"] }) => {
                       {review.reviewerName}
                     </Typography>
                     {" - "}
-                    <DateTime dateTime={review.date}/>
+                    <DateTime dateTime={review.date} />
                   </React.Fragment>
-                }// Shows the Reviewer name and date of review
+                } // Shows the Reviewer name and date of review
               />
             </ListItem>
             {/* Hide the divider at the last Review */}

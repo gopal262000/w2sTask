@@ -1,8 +1,7 @@
 import "./App.css";
 import {
-  BrowserRouter as Router,
-  Routes,
-  Route
+  createBrowserRouter,
+  RouterProvider,
 } from "react-router-dom";
 import "./index.css";
 import Login from "./pages/Login";
@@ -14,22 +13,29 @@ import CurrentUserProvider from "./providers/CurrentUserProvider";
 import PageNotFound from "./components/PageNotFound";
 
 function App() {
+  const router = createBrowserRouter([
+    {
+      element: <CurrentUserProvider />,
+      children: [
+        {
+          path: "/",
+          element: <HomeLayout />,
+          children: [{ path: "products", element: <Products /> }],
+        },
+        {
+          path: "/login",
+          element: <Login />,
+        },
+        {
+          path: "*",
+          element: <PageNotFound />,
+        },
+      ],
+    },
+  ]);
   return (
     <SnackBarShelfProvider>
-      <Router>
-        <CurrentUserProvider>
-          <Routes>
-            {/* HomeLayout and nested routes */}
-            <Route path="/" element={<HomeLayout />}>
-              <Route path="products" element={<Products />} />
-            </Route>
-
-            {/* Login Route */}
-            <Route path="/login" element={<Login />} />
-            <Route path='*' element={<PageNotFound />}/>
-          </Routes>
-        </CurrentUserProvider>
-      </Router>
+      <RouterProvider router={router} />
       <ToastShelf />
     </SnackBarShelfProvider>
   );

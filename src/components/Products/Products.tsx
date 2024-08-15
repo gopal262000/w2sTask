@@ -16,36 +16,20 @@ import {
 } from "@mui/material";
 import ProductReviews from "./ProductReviews";
 import { productsService } from "./service";
+import useSWR from "swr";
 
 /**
  * A Products table that shows the products details and an action to view the reviews
  * @returns {Component} - A Table contains the information about the products
  */
 const Products = () => {
-  const [productsData, setProducts] = useState<ProductsProps>({
-    products: [],
-    total: 0,
-    skip: 0,
-    limit: 0,
-  });
-  const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState({ limit: 10, skip: 0, page: 0 });
+  const { data: productsData, isLoading } = useSWR(
+    filter, // SWR key is just the filter (or null if you prefer)
+    () => productsService({ params: filter }) // Fetcher function returning the promise
+  );
 
-  const { products, total } = productsData;
-
-  useEffect(() => {
-    setLoading(true);
-    const fetchProducts = async () => {
-      const productsData: ProductsProps = await productsService({
-        params: filter,
-      });
-
-      setProducts(productsData);
-      setLoading(false);
-    };
-
-    fetchProducts();
-  }, [filter]);
+  const { products, total = 0 } = (productsData || {}) as ProductsProps;
 
   const handleChangePage = (event: React.MouseEvent | null, page: number) => {
     setFilter({ ...filter, page, skip: page * filter.limit });
@@ -70,7 +54,7 @@ const Products = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {loading && (
+          {isLoading && (
             <TableRow sx={{ height: "79vh" }}>
               <TableCell colSpan={6} align="center">
                 <Backdrop
@@ -78,14 +62,14 @@ const Products = () => {
                     color: "#fff",
                     zIndex: (theme) => theme.zIndex.drawer + 1,
                   }}
-                  open={loading}
+                  open={isLoading}
                 >
                   <CircularProgress color="inherit" />
                 </Backdrop>
               </TableCell>
             </TableRow>
           )}
-          {products.map((product: ProductProps) => (
+          {products?.map((product: ProductProps) => (
             <TableRow
               key={product.id} // Ensure that `product.id` is unique.
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
