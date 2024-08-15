@@ -28,7 +28,7 @@ const Products = () => {
     limit: 0,
   });
   const [loading, setLoading] = useState(false);
-  const [filter, setFilter] = useState({ limit: 10, skip: 0 });
+  const [filter, setFilter] = useState({ limit: 10, skip: 0, page: 0 });
 
   const { products, total } = productsData;
 
@@ -47,12 +47,12 @@ const Products = () => {
   }, [filter]);
 
   const handleChangePage = (event: React.MouseEvent | null, page: number) => {
-    setFilter({ ...filter, skip: page });
+    setFilter({ ...filter, page, skip: page * filter.limit });
   };
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setFilter({ limit: +event.target.value, skip: 0 });
+    setFilter({ ...filter, limit: +event.target.value, skip: 0 });
   };
 
   return (
@@ -92,7 +92,7 @@ const Products = () => {
                   <Rating name="read-only" value={product.rating} readOnly />
                 </TableCell>
                 <TableCell width={150} align="left">
-                  <ProductReviews productId={product.id}/>
+                  <ProductReviews productId={product.id} />
                 </TableCell>
               </TableRow>
             ))}
@@ -102,7 +102,7 @@ const Products = () => {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          page={filter.skip}
+          page={filter.page}
           rowsPerPage={filter.limit}
           count={total}
           onPageChange={handleChangePage}

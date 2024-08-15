@@ -39,7 +39,6 @@ const CurrentUserProvider = ({ children }: { children: React.ReactNode }) => {
 
   // Navigate the user back to the login page if the user is not authenticated
   if (!(userData && userData.username)) {
-    console.log("🚀 ~ CurrentUserProvider ~ userData:", userData)
     if (location.pathname !== "/login") navigate("/login");
   }
 
