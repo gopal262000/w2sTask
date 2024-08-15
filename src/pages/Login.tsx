@@ -73,7 +73,7 @@ const Login: React.FC = () => {
           setIsLoading(false);
           dispatch(login(response)); // dispatch the authenticated login token to save it in the LocalStorage
           snackBar({ message: 'Login Success' }); // Shows the SnackBar with success message
-          navigate("/products");
+          navigate("/u/products");
         }
       } catch (err: any) {
         setIsLoading(false);

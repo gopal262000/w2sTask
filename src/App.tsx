@@ -1,8 +1,5 @@
 import "./App.css";
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import "./index.css";
 import Login from "./pages/Login";
 import HomeLayout from "./layouts/HomeLayout";
@@ -13,18 +10,23 @@ import CurrentUserProvider from "./providers/CurrentUserProvider";
 import PageNotFound from "./components/PageNotFound";
 
 function App() {
+
   const router = createBrowserRouter([
     {
       element: <CurrentUserProvider />,
       children: [
         {
-          path: "/",
-          element: <HomeLayout />,
-          children: [{ path: "products", element: <Products /> }],
-        },
-        {
           path: "/login",
           element: <Login />,
+        },
+        {
+          path: "/",
+          element: <Navigate to="/login" />, // Redirect the home page to /login
+        },
+        {
+          path: "/u",
+          element: <HomeLayout />,
+          children: [{ path: "products", element: <Products /> }],
         },
         {
           path: "*",
@@ -33,6 +35,7 @@ function App() {
       ],
     },
   ]);
+
   return (
     <SnackBarShelfProvider>
       <RouterProvider router={router} />
