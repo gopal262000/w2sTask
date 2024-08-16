@@ -42,6 +42,33 @@ const Products = () => {
   };
 
   return (
+    <ProductsTable
+      isLoading={isLoading}
+      products={products}
+      filter={filter}
+      total={total}
+      handleChangeRowsPerPage={handleChangeRowsPerPage}
+      handleChangePage={handleChangePage}
+    />
+  );
+};
+
+export const ProductsTable = ({
+  isLoading,
+  products,
+  filter,
+  total,
+  handleChangeRowsPerPage,
+  handleChangePage,
+}: {
+  isLoading: boolean;
+  products: ProductProps[];
+  filter: { limit: number; skip: number; page: number };
+  total: number;
+  handleChangePage: (event: React.MouseEvent | null, page: number) => void;
+  handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}) => {
+  return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 850 }} aria-label="Products Table" stickyHeader>
         <TableHead>

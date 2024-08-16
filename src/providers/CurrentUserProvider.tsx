@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CurrentUserProps } from "../types";
 import currentUserService from "./service";
-import { Outlet, useLocation, useNavigate } from "react-router";
+import { Navigate, Outlet, useLocation, useNavigate } from "react-router";
 import { currentUser } from "../features/authSlice";
 
 /**
@@ -30,9 +30,7 @@ const CurrentUserProvider = () => {
         }
       } catch (err) {
         // Navigate the user back to the login page if the user is not authenticated
-        if (!(userData && userData.username)) {
-          if (location.pathname !== "/login") navigate("/login");
-        }
+        if (location.pathname !== "/login") return <Navigate to={"/login"} />;
       }
     };
 
@@ -40,6 +38,9 @@ const CurrentUserProvider = () => {
   }, [dispatch, location.pathname, navigate]); // whenever the page page changes we are authenticating the user
 
   // Navigate the user back to the login page if the user is not authenticated
+  if (!(userData && userData.username)) {
+    if (location.pathname !== "/login") return <Navigate to={"/login"} />;
+  }
 
   // If authenticated continue with remaining components
   return <Outlet />;
