@@ -1,18 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CurrentUserProps } from "../types";
 import currentUserService from "./service";
 import { Navigate, Outlet, useLocation, useNavigate } from "react-router";
 import { currentUser } from "../features/authSlice";
 
-/**
- * This component is used to authenticate the current user
- *
- * - If the user is not authenticated then this component will redirect to the login page
- * @returns {Component} - allows the nested components to be rendered
- */
-
 const CurrentUserProvider = () => {
+  const [loading, setLoading] = useState(true); // Loading state
   const navigate = useNavigate();
   const location = useLocation();
   const userData = useSelector(
@@ -23,26 +17,28 @@ const CurrentUserProvider = () => {
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
-        // Check and hold the state in global state if the user is authenticated
         const currentUserData = await currentUserService();
         if (currentUserData.username) {
           dispatch(currentUser(currentUserData));
+        } else {
+          // If the user is not authenticated, navigate to the login page
+          if (location.pathname !== "/login") return navigate('/login');
         }
       } catch (err) {
         // Navigate the user back to the login page if the user is not authenticated
-        if (location.pathname !== "/login") return <Navigate to={"/login"} />;
+        if (location.pathname !== "/login") return navigate('/login');
+      } finally {
+        setLoading(false); // Set loading to false once the check is complete
       }
     };
 
     fetchCurrentUser();
-  }, [dispatch, location.pathname, navigate]); // whenever the page page changes we are authenticating the user
+  }, [dispatch, location.pathname, navigate]);
 
-  // Navigate the user back to the login page if the user is not authenticated
-  if (!(userData && userData.username)) {
-    if (location.pathname !== "/login") return <Navigate to={"/login"} />;
+  if (loading) {
+    return <></>; // Show a loading state while checking authentication
   }
 
-  // If authenticated continue with remaining components
   return <Outlet />;
 };
 
