@@ -30,7 +30,7 @@ const ChildrenArea = styled.div`
  */
 
 const HomeLayout = ({ children }: { children?: React.ReactNode }) => {
-  const [isSidebarVisible, setIsSidebarVisible] = useState(true);
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
   const handleOnSideMenuClick = () => {
     setIsSidebarVisible(!isSidebarVisible);
