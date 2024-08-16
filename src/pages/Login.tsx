@@ -102,7 +102,7 @@ const Login: React.FC = () => {
             required
             {...formik.getFieldProps("username")}
             error={formik.touched.username && Boolean(formik.errors.username)}
-            helperText={formik.touched.username && formik.errors.username}
+            helperText={(formik.touched.username && formik.errors.username) || 'Username: emilys'}
             autoFocus
           />
           <TextField
@@ -115,7 +115,7 @@ const Login: React.FC = () => {
             type="password"
             {...formik.getFieldProps("password")}
             error={formik.touched.password && Boolean(formik.errors.password)}
-            helperText={formik.touched.password && formik.errors.password}
+            helperText={(formik.touched.password && formik.errors.password)|| 'Password: emilyspass'}
           />
           <StyledButton
             type="submit"
